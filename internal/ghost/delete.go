@@ -9,6 +9,7 @@ import (
  	FileName string `json: "filename"`
 	FileTime string `json: "fileTime"`
 	FileSize int64 	`json: "fileSize"`
+	FilePath string `json: "filePath"`
  }
 /*Quand un fichier est supprimé, il est déplacé dans le dossier caché ./ghost et ses métadonnés sont stockés dans un json */
 func Delete(file string) error{
@@ -20,6 +21,7 @@ func Delete(file string) error{
 	currentFileInfo.FileName =  info.Name()
 	currentFileInfo.FileTime =  info.ModTime().Format("02-01-2006 15:04") // .Format(exemple)
 	currentFileInfo.FileSize =  info.Size()
+	currentFileInfo.FilePath = file //le chemin original
 
 		// Lire le fichier json
 	jsonData,err:= os.ReadFile("metadata.json")
