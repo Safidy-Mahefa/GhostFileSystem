@@ -31,6 +31,7 @@ func main() {
 		}else if strings.Contains(commande,"remove") && parts[0] == "remove" { //si la commande contient "remove" et commence par remove,
 			file:=strings.TrimSpace(parts[1]) //nettoie le nom du fichier
 			fmt.Println(file)
+			file = strings.Replace(file,`\`,"/",-1) // pour avoir un chemin valide et compatible... -1 pour remplacer tout les occurences
 			ghost.Delete(file)
 		}
 	}
