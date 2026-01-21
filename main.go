@@ -41,6 +41,9 @@ func main() {
 			id,err := strconv.Atoi(data)
 			if err != nil {fmt.Println("Erreur de conversion ASCII to int: ",err)}
 			ghost.Restore(id)
+		}else if strings.Contains(commande,"clean"){ //clean
+			ghost.Clean()
 		}
+
 	}
 }
