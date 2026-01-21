@@ -17,6 +17,11 @@ func Delete(file string) error{
 
 	// récuperer Les métadonnes du fichier,  on considère que file est le chemin originale du fichier....
 	info,err:= os.Stat(file)
+	if err != nil {
+		ShowError(fmt.Sprintf("Cannot locate target file: %v", err))
+		return err
+	}
+	
 	var currentFileInfo Info //les infos du fichier courant
 	currentFileInfo.FileName =  info.Name()
 	currentFileInfo.FileTime =  info.ModTime().Format("02-01-2006 15:04") // .Format(exemple)
@@ -26,9 +31,8 @@ func Delete(file string) error{
 		// Lire le fichier json
 	jsonData,err:= os.ReadFile("metadata.json")
 	if(len(jsonData) != 0){ //si je fichier json n'est pas vide
-		fmt.Println("JsonData:", jsonData)
 		err = json.Unmarshal([]byte(jsonData),&InfoTab) // pusher l'info json dans le tableau
-		if err != nil {fmt.Println("Erreur de lecture Json: ",err)}
+		if err != nil {ShowError(fmt.Sprintf("Erreur de lecture Json: %v", err))}
 	}
 
 	// Pusher l'info du fichier courant dans le tableau:
@@ -36,13 +40,11 @@ func Delete(file string) error{
 
 	// Convertir le tableau en json
 	jsonInfo, err := json.MarshalIndent(InfoTab,""," ")
-	if err != nil {fmt.Println("Erreur de conversion Json: ",err)}
-	cleanJson := string(jsonInfo) //le json final
-	fmt.Println("Json:", cleanJson)
+	if err != nil {ShowError(fmt.Sprintf("Erreur de conversion Json: %v", err))}
 
 	// Ecrire le json final dans le fichier metadata.json
 	err = os.WriteFile("metadata.json",jsonInfo,0644)
-	if err != nil {fmt.Println("Erreur d'écriture Json: ",err)}
+	if err != nil {ShowError(fmt.Sprintf("Erreur d'écriture Json: %v", err))}
 
 
 
@@ -51,7 +53,7 @@ func Delete(file string) error{
 	dest := ghostDir + currentFileInfo.FileName +".deleted" //la destination ou le fichier va etre deplace avec son nouveau nom
 
 	err = os.Rename(file,dest) //Déplacer le fichier et le renommer
-	if err != nil {fmt.Println("Erreur de déplacement:",err)}
+	if err != nil {ShowError(fmt.Sprintf("Erreur de déplacement: %v", err))}
 
 	return err
 }

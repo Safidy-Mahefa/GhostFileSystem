@@ -1,7 +1,6 @@
 package ghost
 
 import(
-	"fmt"
 	"encoding/json"
 	"os"
 )
@@ -10,16 +9,12 @@ func List(){
 
 	jsonData,err:= os.ReadFile("metadata.json")
 	if(len(jsonData) != 0){ //si je fichier json n'est pas vide
-		fmt.Println("JsonData:", jsonData)
 		err = json.Unmarshal([]byte(jsonData),&InfoTab) // pusher l'info json dans le tableau
-		if err != nil {fmt.Println("Erreur de lecture Json: ",err)}
+		if err != nil {ShowError("Erreur de lecture Json: " + err.Error())}
 
 		// parcourir le tableau et afficher les fichiers supprimés
-		fmt.Printf("\n-> Liste des fichiers supprimés :\n")
-		for index,value:= range InfoTab{
-			fmt.Println(index+1,":",value.FileName)
-		}
+		ShowTable(InfoTab)
 	}else{
-		fmt.Printf("\n-> Aucun fichier supprimé ! :\n")
+		ShowWarning("Shadow realm is empty. No files to display.")
 	}
 }
