@@ -12,7 +12,7 @@ Ce projet est orienté **système**, **robustesse** et **compréhension approfon
 Dans les systèmes classiques, une suppression est irréversible.
 Ghost File System introduit une couche de sécurité supplémentaire en permettant :
 
-* la récupération de fichiers supprimés par erreur
+* la récupération de fichiers cachés
 * la traçabilité des suppressions
 * un nettoyage contrôlé et sécurisé
 
@@ -53,6 +53,7 @@ ghostfs/
 │  │  ├─ delete.go
 │  │  ├─ restore.go
 │  │  ├─ list.go
+│  │  ├─ ui.go
 │  │  └─ clean.go
 │  ├─ metadata/
 │  │  └─ metadata.go
@@ -72,8 +73,7 @@ ghostfs/
 ghost delete <fichier>
 ghost list
 ghost restore <fichier>
-ghost purge <fichier>
-ghost clean --days <nombre>
+ghost clean 
 ```
 
 ### Détails des commandes
@@ -81,8 +81,7 @@ ghost clean --days <nombre>
 * `delete` : supprime logiquement un fichier
 * `list` : affiche les fichiers supprimés
 * `restore` : restaure un fichier à son emplacement d’origine
-* `purge` : supprime définitivement un fichier fantôme
-* `clean` : nettoie automatiquement les fichiers anciens
+* `clean` : nettoie le dossier .ghost
 
 ---
 
@@ -137,9 +136,6 @@ Il est conçu comme un **projet de niveau ingénieur junior à intermédiaire**.
 * Chiffrement des fichiers fantômes
 * Versioning des fichiers supprimés
 * Support multi-plateforme avancé
-* Intégration avec Nexupload
-* Interface graphique (Wails)
-
 ---
 
 ## Licence
@@ -147,4 +143,3 @@ Il est conçu comme un **projet de niveau ingénieur junior à intermédiaire**.
 Projet éducatif et open-source.
 
 ---
-
